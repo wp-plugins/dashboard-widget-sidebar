@@ -1,12 +1,17 @@
 === Dashboard Widget Sidebar ===
-Contributors: iosoftgame
-Donate link: 
-Tags: dashboard, admin, widget, dashboard widget, widgets, admin widget, admin dashboard
+
+Contributors:      iosoftgame
+Plugin Name:       Dashboard Widget Sidebar
+Plugin URI:        http://www.iosoftgame.com/
+Tags:              dashboard, admin, widget, dashboard widget, widgets, admin widget, admin dashboard
+Author URI:        http://www.iosoftgame.com/
+Author:            Morten Dalgaard Johansen
 Requires at least: 3.3
-Tested up to: 3.5
-Stable tag: 
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Tested up to:      3.5
+Stable tag:        1.0.1
+Version:           1.0.1
+License: 	   GPLv2 or later
+License URI: 	   http://www.gnu.org/licenses/gpl-2.0.html
 
 Enable regulare widgets to be used as Dashboard Widgets in admin.
 
@@ -18,20 +23,26 @@ This plugin adds a new widget area to the Appearance -> Widgets section in WordP
 
 == Installation ==
 
-1. Upload `dashboard-widget-sidebar.php` to the `/wp-content/plugins/` directory
-2. Activate the plugin through the 'Plugins' menu in WordPress
+1. Upload the /dashboard-widget-sidebar folder to /plugins
+2. Activate plugin
+3. Add widgets to the new widget area in the Appearance -> Widgets section
 
-== Frequently asked questions ==
-
-
+== Upgrade Notice ==
 
 == Screenshots ==
 
-
+No screenshots available.
 
 == Changelog ==
 
+= 1.0.1 =
 
+* Did some changes in the readme.txt file
 
-== Upgrade notice ==
+= 1.0.0 =
 
+* First version.
+
+== Frequently Asked Questions ==
+
+== Donations ==
