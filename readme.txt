@@ -8,8 +8,8 @@ Author URI:        http://www.iosoftgame.com/
 Author:            Morten Dalgaard Johansen
 Requires at least: 3.3
 Tested up to:      3.5
-Stable tag:        1.0.1
-Version:           1.0.1
+Stable tag:        1.0.2
+Version:           1.0.2
 License: 	   GPLv2 or later
 License URI: 	   http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,9 +31,15 @@ This plugin adds a new widget area to the Appearance -> Widgets section in WordP
 
 == Screenshots ==
 
-No screenshots available.
+1. The new widget area in the Appearance -> Widgets section
+2. Shows that it is a regulare widget that is being added
+3. Admin Dashboard - the widget has been added as a dashboard widget
 
 == Changelog ==
+
+= 1.0.2 =
+
+* Uploaded screenshots
 
 = 1.0.1 =
 
@@ -44,5 +50,7 @@ No screenshots available.
 * First version.
 
 == Frequently Asked Questions ==
+
+No FAQ yet! If you have any questions, feel free to contact me using the support tab.
 
 == Donations ==

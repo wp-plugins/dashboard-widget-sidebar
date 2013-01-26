@@ -3,10 +3,10 @@
 Plugin Name: Dashboard Widget Sidebar
 Plugin URI: http://www.iosoftgame.com/
 Description: Enable regulare widgets to be used as Dashboard Widgets in admin
-Version: 1.0.1
+Version: 1.0.2
 Author: IO SoftGame
 Author URI: http://www.iosoftgame.com
-License: None
+License: GPLv2 or later
 */
 ?>
 <?php
