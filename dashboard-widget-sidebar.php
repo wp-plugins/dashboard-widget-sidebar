@@ -3,23 +3,17 @@
 Plugin Name: Dashboard Widget Sidebar
 Plugin URI: http://www.iosoftgame.com/
 Description: Enable regulare widgets to be used as Dashboard Widgets in admin
-Version: 1.0.2
+Version: 1.1.0
 Author: IO SoftGame
 Author URI: http://www.iosoftgame.com
 License: GPLv2 or later
 */
 ?>
 <?php
-	//Global variable used to track which widget to show the content of next.
-	//This is required because there can not be transfered information from the "wp_add_dashboard_widget" function to the callback otherwise.
-	global $dws_current_widget_index;
-	$dws_current_widget_index = 0;
-
 	// Function that outputs the contents of the dashboard widget
-	function dws_dashboard_widget_function() {
+	function dws_dashboard_widget_function($post, $metabox) {
 		
 		//Get global variables
-		global $dws_current_widget_index;
 		global $wp_registered_sidebars, $wp_registered_widgets;
 		
 		//Get sidebars
@@ -28,13 +22,16 @@ License: GPLv2 or later
 		$dws_widgets = $sidebars["dws-sidebar"];
 		
 		//Get current widget
-		$id = $dws_widgets[$dws_current_widget_index];
+		$id = $metabox["args"]["id"];
 		
 		//Get the sidebar
 		$sidebar = $wp_registered_sidebars["dws-sidebar"];
 		
+		//Gets widgets unique number
+		$widgetnumber = $wp_registered_widgets[$id]["params"][0]["number"];
+		
 		//Check if the required data is set
-		if( isset($wp_registered_widgets[$id]) && isset($wp_registered_widgets[$id]["callback"]) && isset($wp_registered_widgets[$id]["callback"][0]) )
+		if( isset($wp_registered_widgets[$id]) && isset($wp_registered_widgets[$id]["callback"]) && isset($wp_registered_widgets[$id]["callback"][0]) && $wp_registered_widgets[$id]["params"][0]["number"] == $widgetnumber)
 		{
 			/* Code borrowed from widget.php in the WordPress core */
 			$params = array_merge(
@@ -67,15 +64,15 @@ License: GPLv2 or later
 			/* ---------------------------------------------------- */
 		}
 		
-		//Next widget, please!
-		$dws_current_widget_index++;
-		
 	}
 
 	// Function used in the action hook
 	function dws_add_dashboard_widgets() {
 		
 		global $wp_registered_sidebars, $wp_registered_widgets;
+		
+		//Get current settings
+		$widgetSettings = get_option('dws_widget_settings', array());
 		
 		//Get sidebars
 		$sidebars = wp_get_sidebars_widgets();
@@ -86,27 +83,40 @@ License: GPLv2 or later
 		//Add each widget to the dashboard
 		foreach($dws_widgets as $id)
 		{
+			//Gets widgets unique number
+			$widgetnumber = $wp_registered_widgets[$id]["params"][0]["number"];
+			
 			//Check if the required data is set
-			if( isset($wp_registered_widgets[$id]) && isset($wp_registered_widgets[$id]["callback"]) && isset($wp_registered_widgets[$id]["callback"][0]) )
+			if( isset($wp_registered_widgets[$id]) && isset($wp_registered_widgets[$id]["callback"]) && isset($wp_registered_widgets[$id]["callback"][0]) && $wp_registered_widgets[$id]["params"][0]["number"] == $widgetnumber)
 			{
 				//Get widgets settings
 				$widget = $wp_registered_widgets[$id]["callback"][0]->get_settings();
-				//
-				$title = ' ';
-				//
-				foreach($widget as $widget_settings)
-				{
-					//If title is present, use it!
-					if(isset($widget_settings["title"]))
-						$title = $widget_settings["title"];
+
+				//Set title
+				if(trim($widget[$widgetnumber]["title"]) == "") {
+					$title = '&nbsp;';
+				} else {
+					$title = $widget[$widgetnumber]["title"];
+				}					
+				
+				//Settings - default
+				if(!isset($widgetSettings[$id])) {
+					$widgetSettings[$id] = array(
+						'priority' => 'default',
+						'context' => 'normal'
+					);
 				}
 				
 				//Add the widget to dashboard
-				//wp_add_dashboard_widget('custom_dashboard_widget_' . $id, $title, 'dws_dashboard_widget_function');
-				add_meta_box( 'custom_dashboard_widget_' . $id, $title, 'dws_dashboard_widget_function', 'dashboard', 'normal', 'high' );
-					//TODO: Somehow make it possible to set the last to settings (side + priority) from the Widgets area. Look into how Visual Widget Logic does it!
-					//1. Addtional param = Side ("normal" + "side")
-					//2. Addtional param = Priority ("lov" + "normal" + "high" + a number)
+				add_meta_box( 
+					'custom_dashboard_widget_' . $id, 				//ID
+					$title, 										//Title
+					'dws_dashboard_widget_function', 				//Callback function
+					'dashboard', 									//Where?
+					$widgetSettings[$id]['context'], 				//Context
+					$widgetSettings[$id]['priority'], 				//Priority
+					array('id' => $id)								//Meta data
+				);
 			}
 		}
 	}
@@ -124,4 +134,56 @@ License: GPLv2 or later
 		'before_widget' => '',
 		'after_widget' => ''
 	));
+	
+	//Regsiter admin script
+	function dws_enqueue_script($hook) {
+   		if( 'widgets.php' != $hook )
+	        return;
+			
+	    wp_enqueue_script( 'dws_admin_script', plugins_url('/dashboard-widget-sidebar.js', __FILE__) );
+	}
+	add_action( 'admin_enqueue_scripts', 'dws_enqueue_script' );
+	
+	//Register admin ajax
+	function dws_ajax_update() {
+		//Get widget ID
+		$widgetID = $_POST['widget_id'];
+		
+		//Get current settings
+		$widgetSettings = get_option('dws_widget_settings', array());
+		
+		//Settings
+		$widgetSettings[$widgetID]['priority'] = strtolower($_POST['priority']);
+		$widgetSettings[$widgetID]['context'] = strtolower($_POST['context']);
+		
+		//Update settings
+		update_option('dws_widget_settings', $widgetSettings);
+		
+		//Return 1 to the client
+	    echo '1';
+
+		die(); // this is required to return a proper result
+	}
+	add_action('wp_ajax_dws_ajax_update', 'dws_ajax_update');
+	
+	//Admin head
+	function dws_admin_head(){		
+		/* Style */
+		echo '<style>.dws-settings label {display: block;}</style>';
+		
+		/* Settings */
+		echo '<script type="text/javascript">
+			var dwsWidgetSettings= new Array();';
+		
+		//Get current settings
+		$widgets = get_option('dws_widget_settings', array());
+		
+		//Echo setting to be used in Javascript
+		foreach($widgets as $widgetID=>$widgetSettings) {
+			echo 'dwsWidgetSettings["' . $widgetID . '"] = ["' . $widgetSettings['priority'] . '", "' . $widgetSettings['context'] . '"];';
+		}
+		
+		echo '</script>';
+	}
+	add_action('admin_head', 'dws_admin_head');
 ?>
