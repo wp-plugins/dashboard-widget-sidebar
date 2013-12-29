@@ -109,7 +109,7 @@ License: GPLv2 or later
 				
 				//Add the widget to dashboard
 				add_meta_box( 
-					'custom_dashboard_widget_' . $id, 				//ID
+					'dws_dashboard_widget_' . $id, 					//ID
 					$title, 										//Title
 					'dws_dashboard_widget_function', 				//Callback function
 					'dashboard', 									//Where?

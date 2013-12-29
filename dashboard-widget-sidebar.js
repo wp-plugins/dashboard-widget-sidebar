@@ -1,10 +1,13 @@
 jQuery(document).ready(function($) {
 	
 	function dws_change_select_value(element, value) {
-		element.find("option").filter(function() {
-		    //may want to use $.trim in here
-		    return $(this).text() == value; 
-		}).prop('selected', true);
+		element.find("option").each(function() {
+			
+			if($(this).text().toLowerCase() == $.trim(value))
+				$(this).attr('selected', 'selected');
+			else
+				$(this).removeAttr('selected');
+		});
 	}
 	
 	function dws_add_settings() {
@@ -42,8 +45,15 @@ jQuery(document).ready(function($) {
 			priority: widgetForm.find('.dws-setting.dws-priority').val(),
 			context: widgetForm.find('.dws-setting.dws-context').val()
 		};
+		
+		// Change settings in local array
+		
+		//Priority
+		dwsWidgetSettings[widgetID][0] = widgetForm.find('.dws-setting.dws-priority').val().toLowerCase();
+		//Context
+		dwsWidgetSettings[widgetID][1] = widgetForm.find('.dws-setting.dws-context').val().toLowerCase();
 
-		// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+		//Save settings
 		$.post(ajaxurl, data, function(response) {
 			if(response != '1')
 				alert('Error: Something went wrong.');

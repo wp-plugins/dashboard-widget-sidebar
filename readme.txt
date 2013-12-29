@@ -7,9 +7,9 @@ Tags:              dashboard, admin, widget, dashboard widget, widgets, admin wi
 Author URI:        http://www.iosoftgame.com/
 Author:            Morten Dalgaard Johansen
 Requires at least: 3.3
-Tested up to:      3.6
-Stable tag:        1.1.0
-Version:           1.1.0
+Tested up to:      3.8
+Stable tag:        1.1.1
+Version:           1.1.1
 License: 	       GPLv2 or later
 License URI: 	   http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,14 @@ This plugin adds a new widget area to the Appearance -> Widgets section in WordP
 4. Widget settings, which controls the placement of the widget on the dashboard
 
 == Changelog ==
+
+= 1.1.1 =
+
+[Added] Support for WordPress 3.8
+
+[Changed] Naming of ID attributes for HTML of the Dashboard Widgets
+
+[Fixed] When changes are made, they are automatically saved. However, if you clicked on the "Save" button afterwards, the options would show the previous settings.
 
 = 1.1.0 =
 
