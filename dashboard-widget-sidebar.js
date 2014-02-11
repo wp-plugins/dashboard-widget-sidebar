@@ -47,6 +47,9 @@ jQuery(document).ready(function($) {
 		};
 		
 		// Change settings in local array
+		if(dwsWidgetSettings[widgetID] == undefined) {
+			dwsWidgetSettings[widgetID] = new Array();
+		}
 		
 		//Priority
 		dwsWidgetSettings[widgetID][0] = widgetForm.find('.dws-setting.dws-priority').val().toLowerCase();
