@@ -7,9 +7,9 @@ Tags:              dashboard, admin, widget, dashboard widget, widgets, admin wi
 Author URI:        http://www.iosoftgame.com/
 Author:            Morten Dalgaard Johansen
 Requires at least: 3.3
-Tested up to:      3.9.1
-Stable tag:        1.1.2
-Version:           1.1.2
+Tested up to:      3.9.2
+Stable tag:        1.2.0
+Version:           1.2.0
 License: 	       GPLv2 or later
 License URI: 	   http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,10 @@ This plugin adds a new widget area to the Appearance -> Widgets section in WordP
 4. Widget settings, which controls the placement of the widget on the dashboard
 
 == Changelog ==
+
+= 1.2.0 =
+
+[Added] Contact Form 7 integration. Can be inserted using the shortcode in a text widget.
 
 = 1.1.2 =
 

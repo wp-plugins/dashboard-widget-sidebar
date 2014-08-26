@@ -3,7 +3,7 @@
 Plugin Name: Dashboard Widget Sidebar
 Plugin URI: http://www.iosoftgame.com/
 Description: Enable regulare widgets to be used as Dashboard Widgets in admin
-Version: 1.1.2
+Version: 1.2.0
 Author: IO SoftGame
 Author URI: http://www.iosoftgame.com
 License: GPLv2 or later
@@ -58,7 +58,7 @@ License: GPLv2 or later
 			
 			if ( is_callable($callback) ) {
 				//Call the function, that outputs the widget content
-	               call_user_func_array($callback, $params);
+				call_user_func_array($callback, $params);
 	        }
 			
 			/* ---------------------------------------------------- */
@@ -186,4 +186,14 @@ License: GPLv2 or later
 		echo '</script>';
 	}
 	add_action('admin_head', 'dws_admin_head');
+	
+	/**
+	 * Add-Ons
+	 */
+	 
+	//Contact Form 7
+	if(defined('WPCF7_PLUGIN_DIR')) {
+		require_once WPCF7_PLUGIN_DIR . '/includes/controller.php';
+		add_action( 'admin_enqueue_scripts', 'wpcf7_do_enqueue_scripts' );
+	}
 ?>
