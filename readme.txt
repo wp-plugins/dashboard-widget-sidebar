@@ -40,7 +40,7 @@ This plugin adds a new widget area to the Appearance -> Widgets section in WordP
 
 = 1.2.1 =
 
-[Fixed] Bug "Invalid argument supplied for foreach()" (Thanks you Paul Shryock)
+[Fixed] Bug "Invalid argument supplied for foreach()" (Thanks to Paul Shryock for reporting it)
 
 = 1.2.0 =
 
