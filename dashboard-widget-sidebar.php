@@ -3,7 +3,7 @@
 Plugin Name: Dashboard Widget Sidebar
 Plugin URI: http://www.iosoftgame.com/
 Description: Enable regulare widgets to be used as Dashboard Widgets in admin
-Version: 1.2.0
+Version: 1.2.1
 Author: IO SoftGame
 Author URI: http://www.iosoftgame.com
 License: GPLv2 or later
@@ -81,42 +81,44 @@ License: GPLv2 or later
 		$dws_widgets = $sidebars["dws-sidebar"];
 		
 		//Add each widget to the dashboard
-		foreach($dws_widgets as $id)
-		{
-			//Gets widgets unique number
-			$widgetnumber = $wp_registered_widgets[$id]["params"][0]["number"];
-			
-			//Check if the required data is set
-			if( isset($wp_registered_widgets[$id]) && isset($wp_registered_widgets[$id]["callback"]) && isset($wp_registered_widgets[$id]["callback"][0]) && $wp_registered_widgets[$id]["params"][0]["number"] == $widgetnumber)
+		if(is_array($dws_widgets) && count($dws_widgets) > 0) {
+			foreach($dws_widgets as $id)
 			{
-				//Get widgets settings
-				$widget = $wp_registered_widgets[$id]["callback"][0]->get_settings();
-
-				//Set title
-				if(trim($widget[$widgetnumber]["title"]) == "") {
-					$title = '&nbsp;';
-				} else {
-					$title = $widget[$widgetnumber]["title"];
-				}					
+				//Gets widgets unique number
+				$widgetnumber = $wp_registered_widgets[$id]["params"][0]["number"];
 				
-				//Settings - default
-				if(!isset($widgetSettings[$id])) {
-					$widgetSettings[$id] = array(
-						'priority' => 'default',
-						'context' => 'normal'
+				//Check if the required data is set
+				if( isset($wp_registered_widgets[$id]) && isset($wp_registered_widgets[$id]["callback"]) && isset($wp_registered_widgets[$id]["callback"][0]) && $wp_registered_widgets[$id]["params"][0]["number"] == $widgetnumber)
+				{
+					//Get widgets settings
+					$widget = $wp_registered_widgets[$id]["callback"][0]->get_settings();
+
+					//Set title
+					if(trim($widget[$widgetnumber]["title"]) == "") {
+						$title = '&nbsp;';
+					} else {
+						$title = $widget[$widgetnumber]["title"];
+					}					
+					
+					//Settings - default
+					if(!isset($widgetSettings[$id])) {
+						$widgetSettings[$id] = array(
+							'priority' => 'default',
+							'context' => 'normal'
+						);
+					}
+					
+					//Add the widget to dashboard
+					add_meta_box( 
+						'dws_dashboard_widget_' . $id, 					//ID
+						$title, 										//Title
+						'dws_dashboard_widget_function', 				//Callback function
+						'dashboard', 									//Where?
+						$widgetSettings[$id]['context'], 				//Context
+						$widgetSettings[$id]['priority'], 				//Priority
+						array('id' => $id)								//Meta data
 					);
 				}
-				
-				//Add the widget to dashboard
-				add_meta_box( 
-					'dws_dashboard_widget_' . $id, 					//ID
-					$title, 										//Title
-					'dws_dashboard_widget_function', 				//Callback function
-					'dashboard', 									//Where?
-					$widgetSettings[$id]['context'], 				//Context
-					$widgetSettings[$id]['priority'], 				//Priority
-					array('id' => $id)								//Meta data
-				);
 			}
 		}
 	}
