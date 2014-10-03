@@ -8,8 +8,8 @@ Author URI:        http://www.iosoftgame.com/
 Author:            Morten Dalgaard Johansen
 Requires at least: 3.3
 Tested up to:      4.0
-Stable tag:        1.2.1
-Version:           1.2.1
+Stable tag:        1.2.2
+Version:           1.2.2
 License: 	       GPLv2 or later
 License URI: 	   http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,10 @@ This plugin adds a new widget area to the Appearance -> Widgets section in WordP
 4. Widget settings, which controls the placement of the widget on the dashboard
 
 == Changelog ==
+
+= 1.2.2 =
+
+[Fixed] Bug "Causes CF7 Generate Tags to Fail" (Thanks to theatereleven for reporting it)
 
 = 1.2.1 =
 
