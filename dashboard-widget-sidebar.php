@@ -3,7 +3,7 @@
 Plugin Name: Dashboard Widget Sidebar
 Plugin URI: http://www.iosoftgame.com/
 Description: Enable regulare widgets to be used as Dashboard Widgets in admin
-Version: 1.2.2
+Version: 1.2.3
 Author: IO SoftGame
 Author URI: http://www.iosoftgame.com
 License: GPLv2 or later
@@ -84,6 +84,8 @@ License: GPLv2 or later
 		if(is_array($dws_widgets) && count($dws_widgets) > 0) {
 			foreach($dws_widgets as $id)
 			{
+				if(!isset($wp_registered_widgets[$id]))
+					continue;
 				//Gets widgets unique number
 				$widgetnumber = $wp_registered_widgets[$id]["params"][0]["number"];
 				
