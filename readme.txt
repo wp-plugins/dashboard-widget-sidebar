@@ -7,7 +7,7 @@ Tags:              dashboard, admin, widget, dashboard widget, widgets, admin wi
 Author URI:        http://www.iosoftgame.com/
 Author:            Morten Dalgaard Johansen
 Requires at least: 3.3
-Tested up to:      4.0
+Tested up to:      4.2
 Stable tag:        1.2.3
 Version:           1.2.3
 License: 	       GPLv2 or later
